@@ -8,7 +8,7 @@ With composer:
 
     composer global require guttmann/naut-cli
     
-Ensure that `~/.composer/vendor/bin` is on your `PATH`.
+Ensure that `~/.config/composer/vendor/bin` is on your `PATH`.
     
 ## Usage
 
