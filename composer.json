@@ -19,5 +19,9 @@
     ],
     "license": "MIT",
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "require-dev": {
+        "mockery/mockery": "^0.9.8",
+        "phpunit/phpunit": "^5.7"
+    }
 }
