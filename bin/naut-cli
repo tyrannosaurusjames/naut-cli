@@ -3,7 +3,7 @@
 
 $autoloadOptions = [
     __DIR__ . '/../vendor/autoload.php', // dev
-    __DIR__ . '/../autoload.php' // global install
+    __DIR__ . '/../../../autoload.php' // global install
 ];
 
 foreach ($autoloadOptions as $autoloadOption) {
