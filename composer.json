@@ -14,6 +14,11 @@
             "Guttmann\\NautCli\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Guttmann\\NautCli\\": "tests/"
+        }
+    },
     "bin": [
         "bin/naut-cli"
     ],
