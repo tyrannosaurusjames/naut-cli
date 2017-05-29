@@ -15,36 +15,57 @@ class DeployService
         $branchIdentifier = $crawler->filter('option[value$="' . $branch . '"]')->first()->attr('value');
         $securityId = $crawler->filter('input[name="SecurityID"]')->first()->attr('value');
 
-        $response = $client->request('POST', '/naut/project/' . $instance . '/environment/' . $environment . '/DeployForm', [
-            'form_params' => [
-                'SecurityID' => $securityId,
-                'Branch' => $branchIdentifier,
-                'SelectRelease' => 'Branch',
-                'SkipSnapshot' => '1',
-                'action_startPipeline' => 'Go!'
-            ]
-        ]);
+        $doDeployActionCount = $crawler->filter('input[name="action_doDeploy"]')->count();
 
-        $crawler = new Crawler($response->getBody()->getContents());
+        $formParams = [
+            'SecurityID' => $securityId,
+            'Branch' => $branchIdentifier,
+            'SelectRelease' => 'Branch'
+        ];
 
-        $actions = $crawler->filter('#deployprogress-actions a');
-
-        $deploymentLogLinkFound = false;
-        $logLink = '';
-
-        /** @var \DOMElement $action */
-        foreach ($actions as $action) {
-            $actionTitle = trim($action->textContent);
-
-            if ($actionTitle === 'Deployment Log') {
-                $logLink = getenv('NAUT_URL') . '/' . $action->getAttribute('href') . '/log';
-                $deploymentLogLinkFound = true;
-                break;
-            }
+        if ($doDeployActionCount === 0) {
+            // pipeline deploy
+            $formParams['SkipSnapshot'] = '1';
+            $formParams['action_startPipeline'] = 'Go!';
+            $followRedirects = true;
+        } else {
+            // standard deploy
+            $formParams['action_doDeploy'] = 'Go!';
+            $followRedirects = false;
         }
 
-        if ($deploymentLogLinkFound === false) {
-            $logLink = $this->findDeploymentLogLink($client, $instance, $environment);
+        $response = $client->request('POST', '/naut/project/' . $instance . '/environment/' . $environment . '/DeployForm', [
+            'form_params' => $formParams,
+            'allow_redirects' => $followRedirects
+        ]);
+
+        if ($doDeployActionCount === 0) {
+            $crawler = new Crawler($response->getBody()->getContents());
+
+            $actions = $crawler->filter('#deployprogress-actions a');
+
+            $deploymentLogLinkFound = false;
+            $logLink = '';
+
+            /** @var \DOMElement $action */
+            foreach ($actions as $action) {
+                $actionTitle = trim($action->textContent);
+
+                if ($actionTitle === 'Deployment Log') {
+                    $logLink = getenv('NAUT_URL') . '/' . $action->getAttribute('href') . '/log';
+                    $deploymentLogLinkFound = true;
+                    break;
+                }
+            }
+
+            if ($deploymentLogLinkFound === false) {
+                $logLink = $this->findDeploymentLogLink($client, $instance, $environment);
+            }
+        } else {
+            $location = $response->getHeader('Location')[0];
+            var_dump($location);
+
+            $logLink = getenv('NAUT_URL') . $location . '/log';
         }
 
         return $logLink;
