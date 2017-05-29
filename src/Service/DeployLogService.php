@@ -24,7 +24,7 @@ class DeployLogService
             ]
         ]);
 
-        $timeout = 10;
+        $timeout = 30;
 
         $output = '';
 
@@ -37,14 +37,20 @@ class DeployLogService
             if ($printableOutput === '') {
                 $timeout -= 1;
             } else {
-                $timeout = 10;
+                $timeout = 30;
             }
 
             echo $printableOutput;
-            sleep(1);
+
+            if (preg_match('/deploy of ".*" to ".*" finished/i', $printableOutput) === 1) {
+                return;
+            } else {
+                sleep(1);
+            }
         }
 
-        echo PHP_EOL . 'No contact with stream for 10 seconds, assumed finished.' . PHP_EOL;
+        echo PHP_EOL . 'Streaming deploy log timed out. Maybe the deployment failed?' . PHP_EOL;
+        exit(1);
     }
 
 }
