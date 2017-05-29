@@ -63,7 +63,6 @@ class DeployService
             }
         } else {
             $location = $response->getHeader('Location')[0];
-            var_dump($location);
 
             $logLink = getenv('NAUT_URL') . $location . '/log';
         }
