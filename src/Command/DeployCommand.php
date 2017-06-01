@@ -33,7 +33,11 @@ class DeployCommand extends Command
 
         $client = new Client([
             'base_uri' => getenv('NAUT_URL'),
-            'cookies' => true
+            'cookies' => true,
+            'auth' => [
+                getenv('NAUT_USERNAME'),
+                base64_decode(getenv('NAUT_PASSWORD_B64'))
+            ]
         ]);
 
         $this->attemptLogin($output, $client);
@@ -58,9 +62,15 @@ class DeployCommand extends Command
 
         echo 'Streaming deploy log' . PHP_EOL;
         $deployLogService = new DeployLogService();
-        $deployLogService->streamLog($client, $deployLogLink);
+        $success = $deployLogService->streamLog($client, $deployLogLink);
 
-        $output->writeln('Deployment complete');
+        if ($success) {
+            $output->writeln('Deployment complete');
+            exit(0);
+        } else {
+            $output->writeln('Deployment failed');
+            exit(1);
+        }
     }
 
     private function loadEnvConfig(OutputInterface $output)
