@@ -21,34 +21,29 @@ class DeployServiceTest extends TestCase
         $environment = 'test';
         $branch = 'test-branch-two';
 
-        $firstResponseBody = '<html><body><select name="Branch" class="dropdown nolabel" id="DeployForm_DeployForm_Branch"><option value="6f4658662396e5414c7019c394d8c9340ac438ac-test-branch-one">test-branch-one (6f465866, 55 days old)</option><option value="79bebc86c13ddff38148612a84b911d23c6b80b7-test-branch-two">test-branch-two (79bebc86, 3 months old)</option></select></body</html>';
-        $secondResponseBody = json_encode([
-            'message' => 'Deploy queued as job 68a09c440579d60415ac40f917a1074b',
-            'href' => getenv('NAUT_URL') . '/naut/api/' . $instance . '/' . $environment . '/deploy/123'
+        $mockResponseBody = json_encode([
+            'data' => [
+                'links' => [
+                    'self' => getenv('NAUT_URL') . '/naut/project/' . $instance . '/environment/' . $environment . '/deploys/123'
+                ]
+            ]
         ]);
 
         $mockClient = \Mockery::mock(Client::class);
-        $mockClient
-            ->shouldReceive('get')
-            ->andReturn(new Response(
-            200,
-            [],
-            $firstResponseBody
-        ));
 
         $mockClient
             ->shouldReceive('request')
             ->andReturn(new Response(
                 200,
                 [],
-                $secondResponseBody
+                $mockResponseBody
             ));
 
         $service = new DeployService();
         $logLink = $service->deploy($mockClient, $instance, $environment, $branch);
 
         $this->assertEquals(
-            getenv('NAUT_URL') . '/naut/api/' . $instance . '/' . $environment . '/deploy/123',
+            getenv('NAUT_URL') . '/naut/project/' . $instance . '/environment/' . $environment . '/deploys/log/123',
             $logLink
         );
     }
