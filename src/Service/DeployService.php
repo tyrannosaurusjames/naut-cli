@@ -2,7 +2,6 @@
 namespace Guttmann\NautCli\Service;
 
 use GuzzleHttp\Client;
-use Symfony\Component\DomCrawler\Crawler;
 
 class DeployService
 {
