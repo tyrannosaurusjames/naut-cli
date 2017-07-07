@@ -4,11 +4,11 @@ A cli client for SilverStripe's deploynaut.
 
 ## Install
 
-With composer:
+Download the latest phar from the releases section of this repo and put it somewhere
+on your `$PATH`.
 
-    composer global require guttmann/naut-cli
-    
-Ensure that `~/.config/composer/vendor/bin` is on your `PATH`.
+Or you can clone this repository and build the phar yourself by following
+the instructions in the Build section below.
     
 ## Usage
 
@@ -16,19 +16,25 @@ There are a few different commands that can be run.
 
 ### Configure
 
-naut-cli relies on a configure file existing in your home directory.
+naut-cli relies on a configuration file existing in your home directory.
 
 You can create this by running:
 
-    naut-cli configure
+    naut-cli.phar configure
     
-This will ask you a number of questions and then create a new file at `~/.naut.env`.
+This will ask you for:
+
+- The domain of deploynaut (e.g. https://deploy.test.com)
+- Your username (e.g. test@test.com)
+- Your deploynaut API token
+
+And create a new file at `~/.naut.env` that is only readable by the current user.
 
 ### Deploy
 
 Deploy the latest commit of a project to a specific environment with deploy:
 
-    naut-cli deploy <project_id> <environment> <branch_name>
+    naut-cli.phar deploy <project_id> <environment> <branch_name>
     
 Where:
 
@@ -38,7 +44,12 @@ Where:
 
 A few things will happen when you run this command:
 
-1. Login to deploynaut with the configured credentials
-2. Fetch latest changes from git
-3. Trigger deployment
-4. Stream the deployment log back to your terminal
+1. Fetch latest changes from git
+2. Trigger deployment
+3. Stream the deployment log back to your terminal
+
+## Build phar from source
+
+To build the `naut-cli.phar` file from source run the script `bin/build-phar.sh`.
+
+This will create a fresh copy of the phar at `dist/naut-cli.phar`.

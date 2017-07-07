@@ -6,9 +6,7 @@ use Dotenv\Exception\InvalidPathException;
 use Guttmann\NautCli\Service\DeployLogService;
 use Guttmann\NautCli\Service\DeployService;
 use Guttmann\NautCli\Service\FetchLatestService;
-use Guttmann\NautCli\Service\LoginService;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,11 +34,9 @@ class DeployCommand extends Command
             'cookies' => true,
             'auth' => [
                 getenv('NAUT_USERNAME'),
-                base64_decode(getenv('NAUT_PASSWORD_B64'))
+                base64_decode(getenv('NAUT_TOKEN_B64'))
             ]
         ]);
-
-        $this->attemptLogin($output, $client);
 
         $instanceId = $input->getArgument('instance');
 
@@ -87,27 +83,6 @@ class DeployCommand extends Command
         }
 
         $output->writeln('Config loaded');
-    }
-
-    private function attemptLogin(OutputInterface $output, Client $client)
-    {
-        $output->writeln('Attempting login to ' . getenv('NAUT_URL'));
-
-        try {
-            $loginService = new LoginService();
-            $loggedIn = $loginService->login($client);
-        } catch (RequestException $e) {
-            $output->writeln('Failed to login, because:');
-            $output->writeln($e->getMessage());
-            exit(1);
-        }
-
-        if (!$loggedIn) {
-            $output->writeln('Login failed');
-            exit(1);
-        }
-
-        $output->writeln('Logged in successfully');
     }
 
 }

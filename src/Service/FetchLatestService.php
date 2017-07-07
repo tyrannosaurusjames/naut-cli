@@ -8,18 +8,18 @@ class FetchLatestService
 
     public function fetch(Client $client, $instance)
     {
-        $response = $client->post('/naut/api/' . $instance . '/fetch');
+        $response = $client->post('/naut/project/' . $instance . '/git/fetches');
 
         $jsonResponse = json_decode($response->getBody()->getContents(), true);
 
-        $statusHref = $jsonResponse['href'];
+        $statusHref = $jsonResponse['data']['links']['self'];
 
         echo 'Queued';
         do {
             $response = $client->get($statusHref);
             $jsonResponse = json_decode($response->getBody()->getContents(), true);
 
-            $status = $jsonResponse['status'];
+            $status = $jsonResponse['data']['attributes']['status'];
             echo '.';
             sleep(1);
         } while ($status == 'Queued');
@@ -29,7 +29,7 @@ class FetchLatestService
             $response = $client->get($statusHref);
             $jsonResponse = json_decode($response->getBody()->getContents(), true);
 
-            $status = $jsonResponse['status'];
+            $status = $jsonResponse['data']['attributes']['status'];
             echo '.';
             sleep(1);
         } while ($status == 'Running');

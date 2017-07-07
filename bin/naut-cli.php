@@ -1,17 +1,6 @@
-#!/usr/bin/env php
 <?php
 
-$autoloadOptions = [
-    __DIR__ . '/../vendor/autoload.php', // dev
-    __DIR__ . '/../../../autoload.php' // global install
-];
-
-foreach ($autoloadOptions as $autoloadOption) {
-    if (file_exists($autoloadOption)) {
-        require $autoloadOption;
-        break;
-    }
-}
+require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 
