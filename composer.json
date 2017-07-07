@@ -17,9 +17,6 @@
             "Guttmann\\NautCli\\": "tests/"
         }
     },
-    "bin": [
-        "bin/naut-cli"
-    ],
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
