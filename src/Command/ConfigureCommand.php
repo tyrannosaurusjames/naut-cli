@@ -62,6 +62,8 @@ NAUT_TOKEN_B64='$token'
 ENV
         );
 
+        chmod($homeDir . '/' . ENV_FILE, 0400);
+
         $output->writeln('Config file written at ' . $homeDir . '/' . ENV_FILE);
     }
 
