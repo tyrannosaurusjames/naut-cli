@@ -25,12 +25,18 @@ class DeployLogService
             $responseData = json_decode($response->getBody()->getContents(), true);
 
             $status = $responseData['data']['attributes']['state'];
-            $output = implode(PHP_EOL, $responseData['message']);
+
+            $output = implode(PHP_EOL, array_filter($responseData['message'], function ($item) {
+                return ($item !== '');
+            }));
+
             $printableOutput = str_replace($lastOutput, '', $output);
 
             echo $printableOutput;
             sleep(1);
         }
+
+        echo PHP_EOL;
 
         return ($status === 'Completed');
     }
