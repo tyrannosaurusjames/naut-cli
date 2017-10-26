@@ -20,7 +20,7 @@ naut-cli relies on a configuration file existing in your home directory.
 
 You can create this by running:
 
-    naut-cli.phar configure
+    php naut-cli.phar configure
     
 This will ask you for:
 
