@@ -34,7 +34,7 @@ And create a new file at `~/.naut.env` that is only readable by the current user
 
 Deploy the latest commit of a project to a specific environment with deploy:
 
-    naut-cli.phar deploy <project_id> <environment> <branch_name>
+    php naut-cli.phar deploy <project_id> <environment> <branch_name>
     
 Where:
 
