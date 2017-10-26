@@ -39,7 +39,7 @@ Deploy the latest commit of a project to a specific environment with deploy:
 Where:
 
 - `<project_id>` is the short text identifier of the project in deploynaut (also seen in the deploynaut URL at `/naut/project/<project_id>`)
-- `<environment>` is the name of the environment you want to deploy to (e.g. '`prod`', '`uat`, '`test1`')
+- `<environment>` is the name of the environment you want to deploy to (e.g. '`prod`', '`uat`', '`test1`')
 - `<branch_name>` is the name of the git branch you would like to deploy
 
 A few things will happen when you run this command:
