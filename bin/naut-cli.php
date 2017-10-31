@@ -23,8 +23,10 @@ $application->add(
     (new \Guttmann\NautCli\Command\ConfigureCommand()),
     (new \Guttmann\NautCli\Command\DeployCommand()),
     (new \Guttmann\NautCli\Command\SnapshotListCommand()),
-    (new \Guttmann\NautCli\Command\SnapshotDeleteCommand())
+    (new \Guttmann\NautCli\Command\SnapshotDeleteCommand()),
+    (new \Guttmann\NautCli\Command\SnapshotCreateCommand())
 );
+
 /** @var \Symfony\Component\Console\Command\Command[] $commands */
 $commands = $application->all();
 
@@ -35,7 +37,8 @@ $visibleCommands = [
     'configure',
     'deploy',
     'snapshot:list',
-    'snapshot:delete'
+    'snapshot:delete',
+    'snapshot:create'
 ];
 
 foreach ($commands as $command) {
@@ -43,7 +46,6 @@ foreach ($commands as $command) {
         $command->setHidden(true);
     }
 }
-
 
 define('ENV_FILE', '.naut.env');
 

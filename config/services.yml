@@ -22,6 +22,9 @@ services:
   Guttmann\NautCli\Service\SnapshotService:
     public: true
 
+  Guttmann\NautCli\Service\SnapshotLogService:
+    public: true
+
   naut.fetch:
     alias: Guttmann\NautCli\Service\FetchLatestService
     public: true
@@ -36,6 +39,10 @@ services:
 
   naut.snapshot:
     alias: Guttmann\NautCli\Service\SnapshotService
+    public: true
+
+  naut.snapshot_log:
+    alias: Guttmann\NautCli\Service\SnapshotLogService
     public: true
 
 framework:

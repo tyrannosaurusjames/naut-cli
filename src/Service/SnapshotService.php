@@ -40,4 +40,28 @@ class SnapshotService
         return ($response->getStatusCode() === 204);
     }
 
+    /**
+     * @param $stack
+     * @param $environment
+     * @param $mode
+     * @return string
+     */
+    public function createSnapshot($stack, $environment, $mode)
+    {
+        $payload = json_encode([
+            'environment' => $environment,
+            'mode' => $mode
+        ]);
+
+        $response = $this->client->post('/naut/project/' . $stack . '/snapshots', [
+            'body' => $payload
+        ]);
+
+        $body = $response->getBody()->getContents();
+
+        $jsonBody = json_decode($body, true);
+
+        return $jsonBody['data']['links']['self'] . '/log';
+    }
+
 }
