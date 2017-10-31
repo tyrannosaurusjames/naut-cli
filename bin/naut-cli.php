@@ -22,7 +22,8 @@ TXT
 $application->add(
     (new \Guttmann\NautCli\Command\ConfigureCommand()),
     (new \Guttmann\NautCli\Command\DeployCommand()),
-    (new \Guttmann\NautCli\Command\SnapshotListCommand())
+    (new \Guttmann\NautCli\Command\SnapshotListCommand()),
+    (new \Guttmann\NautCli\Command\SnapshotDeleteCommand())
 );
 /** @var \Symfony\Component\Console\Command\Command[] $commands */
 $commands = $application->all();
@@ -33,7 +34,8 @@ $visibleCommands = [
     'about',
     'configure',
     'deploy',
-    'snapshot:list'
+    'snapshot:list',
+    'snapshot:delete'
 ];
 
 foreach ($commands as $command) {

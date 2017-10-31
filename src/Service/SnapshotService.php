@@ -27,4 +27,17 @@ class SnapshotService
         return $responseJson['data'];
     }
 
+    /**
+     * @param string $stack The id of the stack
+     * @param int $snapshotId The id of the snapshot to delete
+     *
+     * @return bool
+     */
+    public function deleteSnapshot($stack, $snapshotId)
+    {
+        $response = $this->client->delete('/naut/project/' . $stack . '/snapshots/' . $snapshotId);
+
+        return ($response->getStatusCode() === 204);
+    }
+
 }
