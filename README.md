@@ -54,7 +54,7 @@ You can see a list of snapshots for a specific stack with the command:
 
     php naut-cli.php snapshot:list <stack_id>
 
-This will display a table containing columns for: the snapshot id, source environment, size, and created date/time.
+This will display a table containing columns for: the snapshot id, source environment, mode, size, and created date/time.
 
 You can delete a snapshot with the command:
 

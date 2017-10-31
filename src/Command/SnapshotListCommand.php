@@ -45,6 +45,7 @@ class SnapshotListCommand extends ContainerAwareCommand
         $table->setHeaders([
             'id',
             'environment',
+            'mode',
             'size',
             'created'
         ]);
@@ -52,12 +53,14 @@ class SnapshotListCommand extends ContainerAwareCommand
         foreach ($snapshots as $snapshot) {
             $id = $snapshot['id'];
             $environment = $snapshot['relationships']['source']['data'][0]['id'];
+            $mode = $snapshot['attributes']['mode'];
             $size = $this->formatSizeUnits($snapshot['attributes']['size']);
             $created = $snapshot['attributes']['created'];
 
             $table->addRow([
                 $id,
                 $environment,
+                $mode,
                 $size,
                 $created
             ]);

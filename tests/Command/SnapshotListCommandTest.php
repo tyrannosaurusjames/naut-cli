@@ -55,6 +55,7 @@ class SnapshotListCommandTest extends TestCase
         $this->assertContains('Snapshots for stack: test', $output);
         $this->assertContains('Production', $output);
         $this->assertContains('2014-07-02 00:00:00', $output);
+        $this->assertContains('db', $output);
     }
 
 }
