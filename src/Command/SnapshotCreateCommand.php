@@ -3,7 +3,7 @@ namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\Service\SnapshotLogService;
 use Guttmann\NautCli\Service\SnapshotService;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Guttmann\NautCli\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -40,12 +40,14 @@ class SnapshotCreateCommand extends ContainerAwareCommand
             return 1;
         }
 
+        $container = $this->getContainer();
+
         /** @var SnapshotService $snapshotService */
-        $snapshotService = $this->getContainer()->get('naut.snapshot');
+        $snapshotService = $container['naut.snapshot'];
         $logLink = $snapshotService->createSnapshot($stack, $environment, $mode);
 
         /** @var SnapshotLogService $snapshotLogService */
-        $snapshotLogService = $this->getContainer()->get('naut.snapshot_log');
+        $snapshotLogService = $container['naut.snapshot_log'];
         $snapshotSuccess = $snapshotLogService->streamLog($logLink, $output);
 
         if ($snapshotSuccess) {

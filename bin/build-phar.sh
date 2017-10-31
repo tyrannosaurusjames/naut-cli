@@ -16,7 +16,7 @@ mkdir $BUILD_DIR
 cp $BASE_DIR/composer.* $BUILD_DIR
 
 composer install -d $BUILD_DIR --no-dev --prefer-dist --no-suggest
-cp -R "$BASE_DIR/config" "$BASE_DIR/src" "$BASE_DIR/bin/naut-cli.php" "$BUILD_DIR"
+cp -R "$BASE_DIR/src" "$BASE_DIR/bin/naut-cli.php" "$BUILD_DIR"
 
 php $BASE_DIR/bin/build-phar.php
 chmod +x "$DIST_DIR/naut-cli.phar"

@@ -2,7 +2,7 @@
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\Service\SnapshotService;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Guttmann\NautCli\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,8 +24,10 @@ class SnapshotDeleteCommand extends ContainerAwareCommand
         $stack = $input->getArgument('stack');
         $snapshotId = $input->getArgument('snapshot_id');
 
+        $container = $this->getContainer();
+
         /** @var SnapshotService $snapshotService */
-        $snapshotService = $this->getContainer()->get('naut.snapshot');
+        $snapshotService = $container['naut.snapshot'];
         $success = $snapshotService->deleteSnapshot($stack, $snapshotId);
 
         if ($success) {

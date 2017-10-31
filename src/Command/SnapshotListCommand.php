@@ -2,7 +2,7 @@
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\Service\SnapshotService;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Guttmann\NautCli\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,8 +28,10 @@ class SnapshotListCommand extends ContainerAwareCommand
         $stack = $input->getArgument('stack');
         $this->compactOutput = $input->getOption('compact');
 
+        $container = $this->getContainer();
+
         /** @var SnapshotService $snapshotService */
-        $snapshotService = $this->getContainer()->get('naut.snapshot');
+        $snapshotService = $container['naut.snapshot'];
         $snapshots = $snapshotService->listSnapshots($stack);
 
         $output->writeln('Snapshots for stack: <info>' . $stack . '</info>');

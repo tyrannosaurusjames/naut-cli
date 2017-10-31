@@ -1,13 +1,13 @@
 <?php
 namespace Guttmann\NautCli\Command;
 
-use Guttmann\NautCli\Kernel;
 use Guttmann\NautCli\Service\SnapshotService;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
+use Guttmann\NautCli\Application;
+use Pimple\Container;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class SnapshotListCommandTest extends KernelTestCase
+class SnapshotListCommandTest extends TestCase
 {
 
     /** @var Application */
@@ -15,25 +15,28 @@ class SnapshotListCommandTest extends KernelTestCase
 
     public function setUp()
     {
-        $kernel = self::bootKernel();
-        $this->application = new Application($kernel);
-
+        $this->application = new Application();
         $this->mockSnapshotService();
     }
 
     private function mockSnapshotService()
     {
-        $snapshotService = \Mockery::mock(SnapshotService::class);
+        $container = new Container();
 
-        $snapshotService
-            ->shouldReceive('listSnapshots')
-            ->andReturn(json_decode(
-                file_get_contents(dirname(__DIR__) . '/data/SnapshotService.listSnapshots.json'),
-                true
-            ));
+        $container['naut.snapshot'] = function ($c) {
+            $snapshotService = \Mockery::mock(SnapshotService::class);
 
-        $container = $this->application->getKernel()->getContainer();
-        $container->set('naut.snapshot', $snapshotService);
+            $snapshotService
+                ->shouldReceive('listSnapshots')
+                ->andReturn(json_decode(
+                    file_get_contents(dirname(__DIR__) . '/data/SnapshotService.listSnapshots.json'),
+                    true
+                ));
+
+            return $snapshotService;
+        };
+
+        $this->application->setContainer($container);
     }
 
     public function testExecute()
@@ -52,11 +55,6 @@ class SnapshotListCommandTest extends KernelTestCase
         $this->assertContains('Snapshots for stack: test', $output);
         $this->assertContains('Production', $output);
         $this->assertContains('2014-07-02 00:00:00', $output);
-    }
-
-    protected static function createKernel(array $options = array())
-    {
-        return new Kernel('test', false);
     }
 
 }

@@ -9,9 +9,9 @@ class SnapshotService
     /** @var Client */
     private $client;
 
-    public function __construct(ClientConfigurator $clientConfigurator)
+    public function __construct(Client $client)
     {
-        $this->client = $clientConfigurator->getClient();
+        $this->client = $client;
     }
 
     /**
