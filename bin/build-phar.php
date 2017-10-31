@@ -14,6 +14,7 @@ define('PATH_TO_PHAR', DIST_ROOT . DIRECTORY_SEPARATOR . PHAR_FILE);
 echo 'Path to PHAR: ' . PATH_TO_PHAR . PHP_EOL;
 
 $loadDirectories = [
+    BUILD_ROOT . DIRECTORY_SEPARATOR . 'config',
     BUILD_ROOT . DIRECTORY_SEPARATOR . 'src',
     BUILD_ROOT . DIRECTORY_SEPARATOR . 'vendor'
 ];

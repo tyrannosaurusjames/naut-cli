@@ -2,9 +2,11 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Guttmann\NautCli\Kernel;
 
-$application = new Application();
+$kernel = new Kernel('cli', false);
+$application = new Application($kernel);
 
 $application->setName(
 <<<TXT
@@ -17,10 +19,29 @@ $application->setName(
 TXT
 );
 
-$application->addCommands([
-    (new Guttmann\NautCli\Command\DeployCommand()),
-    (new Guttmann\NautCli\Command\ConfigureCommand())
-]);
+$application->add(
+    (new \Guttmann\NautCli\Command\ConfigureCommand()),
+    (new \Guttmann\NautCli\Command\DeployCommand()),
+    (new \Guttmann\NautCli\Command\SnapshotListCommand())
+);
+/** @var \Symfony\Component\Console\Command\Command[] $commands */
+$commands = $application->all();
+
+$visibleCommands = [
+    'help',
+    'list',
+    'about',
+    'configure',
+    'deploy',
+    'snapshot:list'
+];
+
+foreach ($commands as $command) {
+    if (!in_array($command->getName(), $visibleCommands)) {
+        $command->setHidden(true);
+    }
+}
+
 
 define('ENV_FILE', '.naut.env');
 
