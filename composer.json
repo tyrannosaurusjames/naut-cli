@@ -3,9 +3,10 @@
     "description": "CLI client for SilverStripe deploynaut",
     "type": "project",
     "require": {
-        "symfony/console": "^3.2",
         "guzzlehttp/guzzle": "^6.2",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^2.4",
+        "symfony/console": "^3.3",
+        "pimple/pimple": "^3.2"
     },
     "autoload": {
         "psr-4": {

@@ -2,9 +2,13 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Symfony\Component\Console\Application;
+use Guttmann\NautCli\Application;
+use Guttmann\NautCli\Helper\ContainerHelper;
 
 $application = new Application();
+
+$container = ContainerHelper::buildContainer();
+$application->setContainer($container);
 
 $application->setName(
 <<<TXT
@@ -18,8 +22,11 @@ TXT
 );
 
 $application->addCommands([
-    (new Guttmann\NautCli\Command\DeployCommand()),
-    (new Guttmann\NautCli\Command\ConfigureCommand())
+    (new \Guttmann\NautCli\Command\ConfigureCommand()),
+    (new \Guttmann\NautCli\Command\DeployCommand()),
+    (new \Guttmann\NautCli\Command\SnapshotListCommand()),
+    (new \Guttmann\NautCli\Command\SnapshotDeleteCommand()),
+    (new \Guttmann\NautCli\Command\SnapshotCreateCommand())
 ]);
 
 define('ENV_FILE', '.naut.env');

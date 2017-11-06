@@ -48,6 +48,32 @@ A few things will happen when you run this command:
 2. Trigger deployment
 3. Stream the deployment log back to your terminal
 
+### Snapshots
+
+You can see a list of snapshots for a specific stack with the command:
+
+    php naut-cli.php snapshot:list <stack_id>
+
+This will display a table containing columns for: the snapshot id, source environment, mode, size, and created date/time.
+
+You can delete a snapshot with the command:
+
+    php naut-cli.php snapshot:delete <stack_id> <snapshot_id>
+
+You can create a new snapshot for a specific stack/environment with the command:
+
+    php naut-cli.php snapshot:create <stack_id> <snapshot_id>
+
+Optionally, you can include the `--mode` flag. This flag sets the type of snapshot to create.
+
+Valid options are:
+
+- all
+- db
+- assets
+
+The default if the `--mode` flag is missing is `all`. Example usage: `--mode=assets`.
+
 ## Build phar from source
 
 To build the `naut-cli.phar` file from source run the script `bin/build-phar.sh`.

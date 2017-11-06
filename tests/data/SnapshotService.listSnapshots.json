@@ -1,0 +1,41 @@
+[
+  {
+    "type": "snapshots",
+    "id": 1,
+    "attributes": {
+      "created": "2014-07-02 00:00:00",
+      "mode": "db",
+      "can_download": "true",
+      "can_delete": "true",
+      "size": "2096",
+      "snapshot_status": "complete"
+    },
+    "relationships": {
+      "source": {
+        "data": [
+          {
+            "type": "environments",
+            "id": "Production",
+            "links": {
+              "self": "http://example.com/naut/project/stack1/environment/Production"
+            }
+          }
+        ]
+      },
+      "owner": {
+        "data": [
+          {
+            "type": "environments",
+            "id": "UAT",
+            "links": {
+              "self": "http://example.com/naut/project/stack1/environment/UAT"
+            }
+          }
+        ]
+      }
+    },
+    "links": {
+      "download_link": "https://dash.cwp.govt.nz/path/to/snapshot.sspak"
+    }
+  }
+]
