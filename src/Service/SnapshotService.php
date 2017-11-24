@@ -14,6 +14,15 @@ class SnapshotService
         $this->client = $client;
     }
 
+    public function getSnapshotMetadata($stack, $snapshotId)
+    {
+        $response = $this->client->get('/naut/project/' . $stack . '/snapshots/' . $snapshotId);
+
+        $responseJson = json_decode($response->getBody()->getContents(), true);
+
+        return $responseJson['data'];
+    }
+
     /**
      * @param string $stack The id of the stack
      * @return array
