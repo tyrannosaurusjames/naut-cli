@@ -19,15 +19,13 @@ class SnapshotDownloadCommand extends ContainerAwareCommand
             ->setHelp('Given a stack and a snapshot id this command will download a snapshot')
             ->addArgument('stack', InputArgument::REQUIRED, 'The id of your stack')
             ->addArgument('snapshot_id', InputArgument::REQUIRED, 'The id of the snapshot')
-            ->addOption('destination', null, InputOption::VALUE_REQUIRED, 'File name and path to store download');
+            ->addOption('to-stdout', null, InputOption::VALUE_NONE, 'Outputs downloaded file to stdout');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $stack = $input->getArgument('stack');
         $snapshotId = $input->getArgument('snapshot_id');
-
-        $destination = $input->getOption('destination');
 
         $container = $this->getContainer();
 
@@ -39,7 +37,12 @@ class SnapshotDownloadCommand extends ContainerAwareCommand
 
         /** @var SnapshotDownloadService $downloadService */
         $downloadService = $container['naut.download'];
-        $downloadService->download($downloadLink, $output);
+
+        if ($input->getOption('to-stdout')) {
+            $downloadService->downloadToStdOut($downloadLink, $output);
+        } else {
+            $downloadService->downloadWithProgressBar($downloadLink, $output);
+        }
     }
 
 }
