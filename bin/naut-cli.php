@@ -21,6 +21,9 @@ $application->setName(
 TXT
 );
 
+define('NAUT_CLI_VERSION', '2.2.0');
+$application->setVersion(NAUT_CLI_VERSION);
+
 $application->addCommands([
     (new \Guttmann\NautCli\Command\ConfigureCommand()),
     (new \Guttmann\NautCli\Command\DeployCommand()),
