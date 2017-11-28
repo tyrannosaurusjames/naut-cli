@@ -6,6 +6,7 @@ use Dotenv\Exception\InvalidPathException;
 use Guttmann\NautCli\Service\DeployLogService;
 use Guttmann\NautCli\Service\DeployService;
 use Guttmann\NautCli\Service\FetchLatestService;
+use Guttmann\NautCli\Service\SnapshotDownloadService;
 use Guttmann\NautCli\Service\SnapshotLogService;
 use Guttmann\NautCli\Service\SnapshotService;
 use GuzzleHttp\Client;
@@ -65,6 +66,10 @@ class ContainerHelper
 
         $container['naut.snapshot_log'] = function ($c) {
             return new SnapshotLogService($c['naut.client']);
+        };
+
+        $container['naut.download'] = function ($c) {
+            return new SnapshotDownloadService($c['naut.client']);
         };
     }
 

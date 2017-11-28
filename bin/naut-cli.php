@@ -21,11 +21,15 @@ $application->setName(
 TXT
 );
 
+define('NAUT_CLI_VERSION', '2.2.0');
+$application->setVersion(NAUT_CLI_VERSION);
+
 $application->addCommands([
     (new \Guttmann\NautCli\Command\ConfigureCommand()),
     (new \Guttmann\NautCli\Command\DeployCommand()),
     (new \Guttmann\NautCli\Command\SnapshotListCommand()),
     (new \Guttmann\NautCli\Command\SnapshotDeleteCommand()),
+    (new \Guttmann\NautCli\Command\SnapshotDownloadCommand()),
     (new \Guttmann\NautCli\Command\SnapshotCreateCommand())
 ]);
 
