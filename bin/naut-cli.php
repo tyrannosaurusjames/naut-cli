@@ -21,7 +21,7 @@ $application->setName(
 TXT
 );
 
-define('NAUT_CLI_VERSION', '2.2.0');
+define('NAUT_CLI_VERSION', '2.2.1');
 $application->setVersion(NAUT_CLI_VERSION);
 
 $application->addCommands([
