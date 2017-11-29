@@ -47,7 +47,7 @@ class SnapshotDownloadService
         $progressBar->setFormat('[%bar%] %percent%%');
 
         $this->client->get($downloadLink, [
-            RequestOptions::SINK => $filename,
+            RequestOptions::SINK => getcwd() . DIRECTORY_SEPARATOR . $filename,
             RequestOptions::PROGRESS => function ($dl_total_size, $dl_size_so_far) use ($progressBar, $totalSize) {
                 $progress = round(($dl_size_so_far / $totalSize) * 100);
                 $progressBar->setProgress($progress);
