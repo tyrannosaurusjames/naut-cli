@@ -100,3 +100,7 @@ When downloading this way the progress bar is not displayed.
 To build the `naut-cli.phar` file from source run the script `bin/build-phar.sh`.
 
 This will create a fresh copy of the phar at `dist/naut-cli.phar`.
+
+## To do
+
+- Configurable via environment variables rather than .env file
