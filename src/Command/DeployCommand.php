@@ -1,8 +1,6 @@
 <?php
 namespace Guttmann\NautCli\Command;
 
-use Dotenv\Dotenv;
-use Dotenv\Exception\InvalidPathException;
 use Guttmann\NautCli\ContainerAwareCommand;
 use Guttmann\NautCli\Service\DeployLogService;
 use Guttmann\NautCli\Service\DeployService;
