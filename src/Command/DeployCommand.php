@@ -34,7 +34,7 @@ class DeployCommand extends Command
             'cookies' => true,
             'auth' => [
                 getenv('NAUT_USERNAME'),
-                base64_decode(getenv('NAUT_TOKEN_B64'))
+                getenv('NAUT_TOKEN')
             ]
         ]);
 
