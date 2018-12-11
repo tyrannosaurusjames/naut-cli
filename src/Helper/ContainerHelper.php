@@ -27,19 +27,40 @@ class ContainerHelper
     private static function setupDependencies(Container $container)
     {
         $container['naut.client'] = function () {
+            $previousException = null;
+
             try {
                 $dotenv = new Dotenv(getenv('HOME'), ENV_FILE);
                 $dotenv->load();
             } catch (InvalidPathException $e) {
-                throw new \Exception('The .naut.env file was not found, have you run the \'configure\' command?', 0, $e);
+                $previousException = $e;
+            }
+
+            $nautUrl = getenv('NAUT_URL');
+            $nautUsername = getenv('NAUT_USERNAME');
+            $nautToken = getenv('NAUT_TOKEN');
+
+            if ($nautUrl === false || $nautUsername === false || $nautToken === false) {
+                $errorMessage = <<<TEXT
+Missing configuration
+Environment variables NAUT_URL, NAUT_USERNAME, and NAUT_TOKEN are required.
+Use the 'configure' command to create a .naut.env file or configure the
+variables in your environment before running naut-cli.
+TEXT;
+
+                throw new \Exception(
+                    $errorMessage,
+                    0,
+                    $previousException
+                );
             }
 
             return new Client([
-                'base_uri' => getenv('NAUT_URL'),
+                'base_uri' => $nautUrl,
                 'cookies' => true,
                 'auth' => [
-                    getenv('NAUT_USERNAME'),
-                    getenv('NAUT_TOKEN')
+                    $nautUsername,
+                    $nautToken
                 ],
                 'headers' => [
                     'Content-Type' => 'application/vnd.api+json',
