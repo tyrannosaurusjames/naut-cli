@@ -9,16 +9,32 @@ on your `$PATH`.
 
 Or you can clone this repository and build the phar yourself by following
 the instructions in the Build section below.
-    
+
+## Configuration
+
+naut-cli can be configured in two ways.
+
+1. By creating a `.naut.env` file in the users home directory (generated with the `naut-cli configure` command)
+2. By setting the required environment variables before running any naut-cli commands
+
+### Required environment variables
+
+If you are not going to use a `.naut.env` file in your home directory, these environment variables
+must be set:
+
+- `NAUT_URL`: the URL of the deploynaut instances
+- `NAUT_USERNAME`: your deploynaut username
+- `NAUT_TOKEN`: your deploynaut API token
+
 ## Usage
 
 There are a few different commands that can be run.
 
 ### Configure
 
-naut-cli relies on a configuration file existing in your home directory.
+naut-cli can be configured by placing a `.naut.env` file in your home directory.
 
-You can create this by running:
+You can create this file interactively by running:
 
     php naut-cli.phar configure
     
