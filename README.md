@@ -119,5 +119,4 @@ This will create a fresh copy of the phar at `dist/naut-cli.phar`.
 
 ## To do
 
-- Configurable via environment variables rather than .env file
 - Implement more of the deploynaut API
