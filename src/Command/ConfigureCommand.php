@@ -50,14 +50,12 @@ class ConfigureCommand extends Command
         $token = rtrim(fgets(STDIN), "\n");
         shell_exec('stty echo');
 
-        $token = base64_encode($token);
-
         file_put_contents(
             $homeDir . '/' . ENV_FILE,
 <<<ENV
 NAUT_URL='$url'
 NAUT_USERNAME='$username'
-NAUT_TOKEN_B64='$token'
+NAUT_TOKEN='$token'
 
 ENV
         );
