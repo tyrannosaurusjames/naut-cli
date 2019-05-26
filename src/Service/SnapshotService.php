@@ -33,7 +33,11 @@ class SnapshotService
 
         $responseJson = json_decode($response->getBody()->getContents(), true);
 
-        return $responseJson['data'];
+        if (isset($responseJson['data'])) {
+            return $responseJson['data'];
+        }
+
+        return [];
     }
 
     /**
