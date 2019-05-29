@@ -48,7 +48,7 @@ class DeployBranchCommand extends ContainerAwareCommand
 
         /** @var DeployService $deployService */
         $deployService = $container['naut.deploy'];
-        $deployLogLink = $deployService->deploy($client, $instanceId, $environment, $branch);
+        $deployLogLink = $deployService->deployBranch($client, $instanceId, $environment, $branch);
 
         echo 'Deployment triggered' . PHP_EOL;
         echo 'Found deploy log link: ' . $deployLogLink . PHP_EOL;

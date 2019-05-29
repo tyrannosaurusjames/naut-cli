@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 class DeployService
 {
 
-    public function deploy(Client $client, $instance, $environment, $branch)
+    public function deployBranch(Client $client, $instance, $environment, $branch)
     {
         $payload = json_encode([
             'ref_type' => 'branch',
