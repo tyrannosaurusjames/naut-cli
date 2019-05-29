@@ -40,7 +40,7 @@ class DeployServiceTest extends TestCase
             ));
 
         $service = new DeployService();
-        $logLink = $service->deploy($mockClient, $instance, $environment, $branch);
+        $logLink = $service->deployBranch($mockClient, $instance, $environment, $branch);
 
         $this->assertEquals(
             getenv('NAUT_URL') . '/naut/project/' . $instance . '/environment/' . $environment . '/deploys/log/123',
