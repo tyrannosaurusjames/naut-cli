@@ -27,6 +27,7 @@ $application->setVersion(NAUT_CLI_VERSION);
 $application->addCommands([
     (new \Guttmann\NautCli\Command\ConfigureCommand()),
     (new \Guttmann\NautCli\Command\DeployBranchCommand()),
+    (new \Guttmann\NautCli\Command\DeployPromoteFromUatCommand()),
     (new \Guttmann\NautCli\Command\SnapshotListCommand()),
     (new \Guttmann\NautCli\Command\SnapshotDeleteCommand()),
     (new \Guttmann\NautCli\Command\SnapshotDownloadCommand()),
