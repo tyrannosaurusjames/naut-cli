@@ -2,13 +2,14 @@
 namespace Guttmann\NautCli\Service;
 
 use GuzzleHttp\Client;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class DeployLogService
 {
 
-    public function streamLog(Client $client, $statusLink)
+    public function streamLog(Client $client, $statusLink, OutputInterface $output)
     {
-        $output = '';
+        $logOutput = '';
         $status = 'Queued';
 
         $runningStatuses = [
@@ -19,24 +20,24 @@ class DeployLogService
         ];
 
         while (in_array($status, $runningStatuses)) {
-            $lastOutput = $output;
+            $lastLogOutput = $logOutput;
 
             $response = $client->get($statusLink);
             $responseData = json_decode($response->getBody()->getContents(), true);
 
             $status = $responseData['data']['attributes']['state'];
 
-            $output = implode(PHP_EOL, array_filter($responseData['message'], function ($item) {
+            $logOutput = implode(PHP_EOL, array_filter($responseData['message'], function ($item) {
                 return ($item !== '');
             }));
 
-            $printableOutput = str_replace($lastOutput, '', $output);
+            $printableOutput = str_replace($lastLogOutput, '', $logOutput);
 
-            echo $printableOutput;
+            $output->write($printableOutput);
             sleep(1);
         }
 
-        echo PHP_EOL;
+        $output->writeln('');
 
         return ($status === 'Completed');
     }

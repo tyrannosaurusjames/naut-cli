@@ -50,14 +50,15 @@ class DeployBranchCommand extends ContainerAwareCommand
         $deployService = $container['naut.deploy'];
         $deployLogLink = $deployService->deployBranch($client, $instanceId, $environment, $branch);
 
-        $output->writeln('Deployment triggered');
-        $output->writeln('Found deploy log link: ' . $deployLogLink);
-
-        $output->writeln('Streaming deploy log');
+        $output->writeln([
+            'Deployment triggered',
+            'Found deploy log link: ' . $deployLogLink,
+            'Streaming deploy log'
+        ]);
 
         /** @var DeployLogService $deployLogService */
         $deployLogService = $container['naut.deploy_log'];
-        $success = $deployLogService->streamLog($client, $deployLogLink);
+        $success = $deployLogService->streamLog($client, $deployLogLink, $output);
 
         if ($success) {
             $output->writeln('Deployment complete');
