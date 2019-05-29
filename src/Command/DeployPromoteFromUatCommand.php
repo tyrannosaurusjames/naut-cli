@@ -2,6 +2,8 @@
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\ContainerAwareCommand;
+use Guttmann\NautCli\Service\DeployService;
+use GuzzleHttp\Client;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,6 +22,35 @@ class DeployPromoteFromUatCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Deployment goes here');
+        $container = $this->getContainer();
+
+        $stackId = $input->getArgument(self::STACK_ARG_NAME);
+
+        /** @var Client $client */
+        $client = $container['naut.client'];
+
+        $output->writeln('Triggering deployment (promoting UAT to production)');
+
+        /** @var DeployService $deployService */
+        $deployService = $container['naut.deploy'];
+        $deployLogLink = $deployService->promoteFromUat($client, $stackId);
+
+        $output->writeln([
+            'Deployment triggered',
+            'Found deploy log link: ' . $deployLogLink,
+            'Streaming deploy log'
+        ]);
+
+        /** @var DeployLogService $deployLogService */
+        $deployLogService = $container['naut.deploy_log'];
+        $success = $deployLogService->streamLog($client, $deployLogLink, $output);
+
+        if ($success) {
+            $output->writeln('Deployment complete');
+            return 0;
+        } else {
+            $output->writeln('Deployment failed');
+            return 1;
+        }
     }
 }
