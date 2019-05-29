@@ -35,7 +35,7 @@ class DeployBranchCommand extends ContainerAwareCommand
 
         $instanceId = $input->getArgument(self::STACK_ARG_NAME);
 
-        echo 'Fetching latest from git' . PHP_EOL;
+        $output->writeln('Fetching latest from git');
 
         /** @var FetchLatestService $fetchService */
         $fetchService = $container['naut.fetch'];
@@ -44,16 +44,16 @@ class DeployBranchCommand extends ContainerAwareCommand
         $environment = $input->getArgument(self::ENVIRONMENT_ARG_NAME);
         $branch = $input->getArgument(self::BRANCH_ARG_NAME);
 
-        echo 'Triggering deployment' . PHP_EOL;
+        $output->writeln('Triggering deployment');
 
         /** @var DeployService $deployService */
         $deployService = $container['naut.deploy'];
         $deployLogLink = $deployService->deployBranch($client, $instanceId, $environment, $branch);
 
-        echo 'Deployment triggered' . PHP_EOL;
-        echo 'Found deploy log link: ' . $deployLogLink . PHP_EOL;
+        $output->writeln('Deployment triggered');
+        $output->writeln('Found deploy log link: ' . $deployLogLink);
 
-        echo 'Streaming deploy log' . PHP_EOL;
+        $output->writeln('Streaming deploy log');
 
         /** @var DeployLogService $deployLogService */
         $deployLogService = $container['naut.deploy_log'];
