@@ -10,17 +10,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeployCommand extends ContainerAwareCommand
+class DeployBranchCommand extends ContainerAwareCommand
 {
+    const STACK_ARG_NAME = 'stack';
+    const ENVIRONMENT_ARG_NAME = 'environment';
+    const BRANCH_ARG_NAME = 'branch';
 
     protected function configure()
     {
-        $this->setName('deploy')
-            ->setDescription('Runs a deployment')
-            ->setHelp('This command allows you to deploy the latest version of a branch to a specific environment within an instance.')
-            ->addArgument('instance', InputArgument::REQUIRED, 'The shortcode for your instance')
-            ->addArgument('environment', InputArgument::REQUIRED, 'The environment name')
-            ->addArgument('branch', InputArgument::REQUIRED, 'The git branch to deploy');
+        $this->setName('deploy:branch')
+            ->setDescription('Deploys a specific branch to an environment')
+            ->setHelp('This command allows you to deploy the latest version of a branch to a specific environment within a stack.')
+            ->addArgument(self::STACK_ARG_NAME, InputArgument::REQUIRED, 'The shortcode for your stack')
+            ->addArgument(self::ENVIRONMENT_ARG_NAME, InputArgument::REQUIRED, 'The environment name')
+            ->addArgument(self::BRANCH_ARG_NAME, InputArgument::REQUIRED, 'The git branch to deploy');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -30,7 +33,7 @@ class DeployCommand extends ContainerAwareCommand
         /** @var Client $client */
         $client = $container['naut.client'];
 
-        $instanceId = $input->getArgument('instance');
+        $instanceId = $input->getArgument(self::STACK_ARG_NAME);
 
         echo 'Fetching latest from git' . PHP_EOL;
 
@@ -38,8 +41,8 @@ class DeployCommand extends ContainerAwareCommand
         $fetchService = $container['naut.fetch'];
         $fetchService->fetch($client, $instanceId);
 
-        $environment = $input->getArgument('environment');
-        $branch = $input->getArgument('branch');
+        $environment = $input->getArgument(self::ENVIRONMENT_ARG_NAME);
+        $branch = $input->getArgument(self::BRANCH_ARG_NAME);
 
         echo 'Triggering deployment' . PHP_EOL;
 
