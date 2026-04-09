@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -8,14 +9,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ConfigureCommand extends Command
 {
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('configure')
             ->setDescription('Writes a config file (~/.naut.env) based on provided input')
             ->setHelp('Allows you to create the ~/.naut.env file that configuration items are loaded from.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $homeDir = getenv('HOME');
 
@@ -30,7 +31,7 @@ class ConfigureCommand extends Command
 
                 if ($overwrite === 'n' || $overwrite === '') {
                     $output->writeln('Aborting configuration');
-                    exit(0);
+                    return 0;
                 } else if ($overwrite !== 'y') {
                     $output->writeln('Enter y or n');
                 } else {
@@ -52,7 +53,7 @@ class ConfigureCommand extends Command
 
         file_put_contents(
             $homeDir . '/' . ENV_FILE,
-<<<ENV
+            <<<ENV
 NAUT_URL='$url'
 NAUT_USERNAME='$username'
 NAUT_TOKEN='$token'
@@ -63,6 +64,7 @@ ENV
         chmod($homeDir . '/' . ENV_FILE, 0400);
 
         $output->writeln('Config file written at ' . $homeDir . '/' . ENV_FILE);
-    }
 
+        return 0;
+    }
 }

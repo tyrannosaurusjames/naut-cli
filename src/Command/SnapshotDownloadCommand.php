@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\ContainerAwareCommand;
@@ -12,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SnapshotDownloadCommand extends ContainerAwareCommand
 {
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('snapshot:download')
             ->setDescription('Download a snapshot')
@@ -22,7 +23,7 @@ class SnapshotDownloadCommand extends ContainerAwareCommand
             ->addOption('to-stdout', null, InputOption::VALUE_NONE, 'Outputs downloaded file to stdout');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $stack = $input->getArgument('stack');
         $snapshotId = $input->getArgument('snapshot_id');
@@ -43,6 +44,7 @@ class SnapshotDownloadCommand extends ContainerAwareCommand
         } else {
             $downloadService->downloadWithProgressBar($downloadLink, $output);
         }
-    }
 
+        return 0;
+    }
 }

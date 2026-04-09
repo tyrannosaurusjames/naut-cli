@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Helper;
 
 use Dotenv\Dotenv;
@@ -30,7 +31,7 @@ class ContainerHelper
             $previousException = null;
 
             try {
-                $dotenv = new Dotenv(getenv('HOME'), ENV_FILE);
+                $dotenv = Dotenv::createUnsafeImmutable(getenv('HOME'), ENV_FILE);
                 $dotenv->load();
             } catch (InvalidPathException $e) {
                 $previousException = $e;
@@ -93,5 +94,4 @@ TEXT;
             return new SnapshotDownloadService($c['naut.client']);
         };
     }
-
 }

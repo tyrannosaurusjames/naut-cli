@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\Service\SnapshotService;
@@ -10,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SnapshotDeleteCommand extends ContainerAwareCommand
 {
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('snapshot:delete')
             ->setDescription('Deletes a snapshot')
@@ -19,7 +20,7 @@ class SnapshotDeleteCommand extends ContainerAwareCommand
             ->addArgument('snapshot_id', InputArgument::REQUIRED, 'The id of the snapshot to delete');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $stack = $input->getArgument('stack');
         $snapshotId = $input->getArgument('snapshot_id');
@@ -38,5 +39,4 @@ class SnapshotDeleteCommand extends ContainerAwareCommand
             return 1;
         }
     }
-
 }

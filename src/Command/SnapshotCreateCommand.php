@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\Service\SnapshotLogService;
@@ -12,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SnapshotCreateCommand extends ContainerAwareCommand
 {
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('snapshot:create')
             ->setDescription('Create a snapshot')
@@ -22,7 +23,7 @@ class SnapshotCreateCommand extends ContainerAwareCommand
             ->addOption('mode', 'm', InputOption::VALUE_OPTIONAL, 'Type of snapshot to create: all, db, assets', 'all');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $stack = $input->getArgument('stack');
         $environment = $input->getArgument('environment');
@@ -58,5 +59,4 @@ class SnapshotCreateCommand extends ContainerAwareCommand
             return 1;
         }
     }
-
 }

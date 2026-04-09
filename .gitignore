@@ -1,3 +1,5 @@
 /.idea/
 /dist/
 /vendor/
+.phpunit.cache/
+.phpunit.result.cache

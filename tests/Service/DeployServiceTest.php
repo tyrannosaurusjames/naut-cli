@@ -1,14 +1,17 @@
 <?php
+
 namespace Guttmann\NautCli\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(DeployService::class)]
 class DeployServiceTest extends TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         putenv('NAUT_URL=https://naut.test.com');
         putenv('NAUT_USERNAME=test@test.com');
@@ -47,5 +50,4 @@ class DeployServiceTest extends TestCase
             $logLink
         );
     }
-
 }

@@ -3,10 +3,10 @@
     "description": "CLI client for SilverStripe deploynaut",
     "type": "project",
     "require": {
-        "guzzlehttp/guzzle": "^6.2",
-        "vlucas/phpdotenv": "^2.4",
-        "symfony/console": "^3.3",
-        "pimple/pimple": "^3.2"
+        "guzzlehttp/guzzle": "^7.10.0",
+        "vlucas/phpdotenv": "^5.6.3",
+        "symfony/console": "^8.0.8",
+        "pimple/pimple": "^3.6.2"
     },
     "autoload": {
         "psr-4": {
@@ -22,7 +22,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "mockery/mockery": "^0.9.8",
-        "phpunit/phpunit": "^5.7"
+        "mockery/mockery": "^1.6.12",
+        "phpunit/phpunit": "^13.1.1"
     }
 }

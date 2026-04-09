@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Service;
 
 use GuzzleHttp\Client;
@@ -6,9 +7,11 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mockery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+#[CoversClass(SnapshotLogService::class)]
 class SnapshotLogServiceTest extends TestCase
 {
 
@@ -28,7 +31,7 @@ class SnapshotLogServiceTest extends TestCase
         try {
             $logService->streamLog($this->testUri, $output);
         } catch (\Exception $actualException) {
-            $this->assertContains($expectedException->getMessage(), $output->fetch());
+            $this->assertStringContainsString($expectedException->getMessage(), $output->fetch());
 
             throw $actualException;
         }
@@ -64,7 +67,7 @@ class SnapshotLogServiceTest extends TestCase
         $log = $output->fetch();
 
         $this->assertTrue($result);
-        $this->assertContains($this->testExceptionMessage, $log);
+        $this->assertStringContainsString($this->testExceptionMessage, $log);
     }
 
     private function setupRecoveringMockClient($exception)
@@ -79,7 +82,6 @@ class SnapshotLogServiceTest extends TestCase
 
         return $client;
     }
-
 }
 
 /**
@@ -95,5 +97,4 @@ class TestSnapshotLogService extends SnapshotLogService
     {
         // don't call sleep() during tests
     }
-
 }

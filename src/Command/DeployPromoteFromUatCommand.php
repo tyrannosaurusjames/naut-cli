@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\ContainerAwareCommand;
@@ -12,7 +13,7 @@ class DeployPromoteFromUatCommand extends ContainerAwareCommand
 {
     const STACK_ARG_NAME = 'stack';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('deploy:promote-from-uat')
             ->setDescription('Promotes the latest release to UAT to the production environment for a stack')
@@ -20,7 +21,7 @@ class DeployPromoteFromUatCommand extends ContainerAwareCommand
             ->addArgument(self::STACK_ARG_NAME, InputArgument::REQUIRED, 'The shortcode for your stack');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $container = $this->getContainer();
 

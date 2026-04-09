@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\ContainerAwareCommand;
@@ -16,7 +17,7 @@ class DeployBranchCommand extends ContainerAwareCommand
     const ENVIRONMENT_ARG_NAME = 'environment';
     const BRANCH_ARG_NAME = 'branch';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('deploy:branch')
             ->setDescription('Deploys a specific branch to an environment')
@@ -26,7 +27,7 @@ class DeployBranchCommand extends ContainerAwareCommand
             ->addArgument(self::BRANCH_ARG_NAME, InputArgument::REQUIRED, 'The git branch to deploy');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $container = $this->getContainer();
 

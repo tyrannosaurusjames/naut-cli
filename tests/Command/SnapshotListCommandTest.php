@@ -1,19 +1,22 @@
 <?php
+
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\Service\SnapshotService;
 use PHPUnit\Framework\TestCase;
 use Guttmann\NautCli\Application;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Pimple\Container;
 use Symfony\Component\Console\Tester\CommandTester;
 
+#[CoversClass(SnapshotListCommand::class)]
 class SnapshotListCommandTest extends TestCase
 {
 
     /** @var Application */
     private $application;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->application = new Application();
         $this->mockSnapshotService();
@@ -41,7 +44,7 @@ class SnapshotListCommandTest extends TestCase
 
     public function testExecute()
     {
-        $this->application->add(new SnapshotListCommand());
+        $this->application->addCommand(new SnapshotListCommand());
 
         $command = $this->application->find('snapshot:list');
         $commandTester = new CommandTester($command);
@@ -52,10 +55,9 @@ class SnapshotListCommandTest extends TestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('Snapshots for stack: test', $output);
-        $this->assertContains('Production', $output);
-        $this->assertContains('2014-07-02 00:00:00', $output);
-        $this->assertContains('db', $output);
+        $this->assertStringContainsString('Snapshots for stack: test', $output);
+        $this->assertStringContainsString('Production', $output);
+        $this->assertStringContainsString('2014-07-02 00:00:00', $output);
+        $this->assertStringContainsString('db', $output);
     }
-
 }

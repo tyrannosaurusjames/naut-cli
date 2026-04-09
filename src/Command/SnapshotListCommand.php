@@ -1,4 +1,5 @@
 <?php
+
 namespace Guttmann\NautCli\Command;
 
 use Guttmann\NautCli\Service\SnapshotService;
@@ -14,7 +15,7 @@ class SnapshotListCommand extends ContainerAwareCommand
 
     private $compactOutput = false;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('snapshot:list')
             ->setDescription('Shows a list of snapshots for a stack')
@@ -23,7 +24,7 @@ class SnapshotListCommand extends ContainerAwareCommand
             ->addOption('compact', 'c', InputOption::VALUE_NONE, 'Use compact output');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $stack = $input->getArgument('stack');
         $this->compactOutput = $input->getOption('compact');
@@ -36,6 +37,8 @@ class SnapshotListCommand extends ContainerAwareCommand
 
         $output->writeln('Snapshots for stack: <info>' . $stack . '</info>');
         $this->printFormattedOutput($snapshots, $output);
+
+        return 0;
     }
 
     private function printFormattedOutput($snapshots, OutputInterface $output)
@@ -91,5 +94,4 @@ class SnapshotListCommand extends ContainerAwareCommand
 
         return $bytes;
     }
-
 }
